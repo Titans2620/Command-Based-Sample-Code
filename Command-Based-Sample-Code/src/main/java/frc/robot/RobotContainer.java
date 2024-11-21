@@ -5,8 +5,18 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.SetMotorControl;
+import frc.robot.subsystems.MotorControlSubsystem;
+import frc.robot.subsystems.MotorPIDControlSubsystem;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -17,27 +27,35 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private static MotorControlSubsystem m_MotorControlSubsystem = new MotorControlSubsystem();
+  private static MotorPIDControlSubsystem m_MotorPIDControlSubsystem = new MotorPIDControlSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final Joystick m_driverController = new Joystick(OperatorConstants.kDriverControllerPort);
+
+  //buttons
+  private final JoystickButton runMotorForward = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+  private final JoystickButton runMotorReverse = new JoystickButton(m_driverController, XboxController.Button.kB.value);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+
+    CameraServer.startAutomaticCapture();
+
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
+
+    DataLog log = DataLogManager.getLog();
+
     configureBindings();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
-   
+      //Set Default Commands
+      m_MotorControlSubsystem.setDefaultCommand(new SetMotorControl(m_MotorControlSubsystem, 0.0));
+      runMotorForward.whileTrue(new SetMotorControl(m_MotorControlSubsystem, 12.0));
+      runMotorReverse.whileTrue(new SetMotorControl(m_MotorControlSubsystem, -12.0));
   }
 
   /**
