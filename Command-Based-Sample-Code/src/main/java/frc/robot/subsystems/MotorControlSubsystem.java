@@ -27,7 +27,7 @@ public class MotorControlSubsystem extends SubsystemBase {
     voltageLog = new DoubleLogEntry(log, "/motorPIDControlSubsystem/voltageLog");
     motorSpeedLog = new DoubleLogEntry(log, "/motorPIDControlSubsystem/motorSpeedLog");
     
-    voltage = 0.0;
+    voltage  =0.0;
   }
 
   public void setVoltage(double voltage){

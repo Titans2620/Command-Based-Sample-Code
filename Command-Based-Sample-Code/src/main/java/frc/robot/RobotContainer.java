@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SetMotorControl;
 import frc.robot.subsystems.MotorControlSubsystem;
 import frc.robot.subsystems.MotorPIDControlSubsystem;
+import frc.robot.subsystems.Purple;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -27,15 +28,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private static MotorControlSubsystem m_MotorControlSubsystem = new MotorControlSubsystem();
+ // private static MotorControlSubsystem m_MotorControlSubsystem = new MotorControlSubsystem();
   private static MotorPIDControlSubsystem m_MotorPIDControlSubsystem = new MotorPIDControlSubsystem();
+  private static Purple p_Purple = new Purple();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final Joystick m_driverController = new Joystick(OperatorConstants.kDriverControllerPort);
 
   //buttons
+  //private final JoystickButton runMotorForward = new JoystickButton(m_driverController, XboxController.Button.kA.value);
+  //private final JoystickButton runMotorReverse = new JoystickButton(m_driverController, XboxController.Button.kB.value);
   private final JoystickButton runMotorForward = new JoystickButton(m_driverController, XboxController.Button.kA.value);
-  private final JoystickButton runMotorReverse = new JoystickButton(m_driverController, XboxController.Button.kB.value);
+  private final JoystickButton runMotorReverse = new JoystickButton(m_driverController, XboxController.Button.kA.value);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -53,9 +57,9 @@ public class RobotContainer {
 
   private void configureBindings() {
       //Set Default Commands
-      m_MotorControlSubsystem.setDefaultCommand(new SetMotorControl(m_MotorControlSubsystem, 0.0));
-      runMotorForward.whileTrue(new SetMotorControl(m_MotorControlSubsystem, 12.0));
-      runMotorReverse.whileTrue(new SetMotorControl(m_MotorControlSubsystem, -12.0));
+     // m_MotorControlSubsystem.setDefaultCommand(new SetMotorControl(m_MotorControlSubsystem, 0.0));
+     // runMotorForward.whileTrue(new SetMotorControl(m_MotorControlSubsystem, 12.0));
+      //runMotorReverse.whileTrue(new SetMotorControl(m_MotorControlSubsystem, -12.0));
   }
 
   /**
